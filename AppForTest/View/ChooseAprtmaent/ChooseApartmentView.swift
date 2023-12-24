@@ -1,11 +1,3 @@
-//
-//  ChooseApartmentView.swift
-//  AppForTest
-//
-//  Created by Aleksey Alyonin on 19.12.2023.
-//
-
-
 import UIKit
 import SnapKit
 
@@ -28,10 +20,7 @@ class ChooseApartmentView: UIViewController {
         setConstraint()
         setConfigTable()
         getNetworkData()
-        
-//        tableView.reloadData()
     }
-    
     ///Получаем data с сервера
     private func getNetworkData(){
         var num = 0
@@ -47,7 +36,8 @@ class ChooseApartmentView: UIViewController {
                     name: i.name ?? "",
                     plus1: i.peculiarities[i.id] ?? "",
                     plus2: i.peculiarities[num] ?? "",
-                    cost: i.price ?? 0))
+                    cost: i.price ?? 0,
+                    imageUrl: i.imageUrls))
             }
             mockData = newMockData
             tableView.reloadData()
@@ -64,7 +54,6 @@ class ChooseApartmentView: UIViewController {
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
-        
         tableView.register(ChooseApartmentViewCell.self, forCellReuseIdentifier: ChooseApartmentViewCell.identifier)
     }
     
@@ -80,6 +69,18 @@ class ChooseApartmentView: UIViewController {
     ///Переход на страницу резерва номера
     @objc func seguaOnViewReservation(){
         chooseApartmentViewCoordinator?.moveReservationOrder()
+    }
+    
+    ///Высота и ширина autoLayout для определения разных экранов
+    private func autoLayout() -> AutoLayout {
+        //        print(autoLayout().height) //930
+        //        print(autoLayout().width)  //430
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        let height = window?.screen.bounds.height ?? 0
+        let width = window?.screen.bounds.width ?? 0
+        return AutoLayout.init(height: height, width: width)
     }
 }
 
@@ -102,7 +103,7 @@ extension ChooseApartmentView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 700
+        return CGFloat(autoLayout().height) / 1.429
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

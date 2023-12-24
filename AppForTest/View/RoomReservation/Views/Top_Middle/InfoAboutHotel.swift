@@ -23,8 +23,6 @@ class InfoAboutHotel: UIView {
         let stack = UIStackView()
         stack.alignment = .leading
         stack.axis = .vertical
-//        stack.spacing = 1
-//        stack.layer.cornerRadius = 5
         stack.backgroundColor = AppColor.ratingColorView
         return stack
     }()
@@ -39,7 +37,7 @@ class InfoAboutHotel: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(fromWhichCity: String, 
+    func configure(fromWhichCity: String,
                    whatСity: String,
                    dataFling: String,
                    howNights: String,

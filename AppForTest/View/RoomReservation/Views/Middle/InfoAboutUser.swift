@@ -46,9 +46,16 @@ class InfoAboutUser: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(textRight: String){
-//        leftLabel.text = textLeft
-//        rightLabel.text = textRight
+    ///Высота и ширина autoLayout для определения разных экранов
+    private func autoLayout() -> AutoLayout {
+        //        print(autoLayout().height) //930
+        //        print(autoLayout().width)  //430
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        let height = window?.screen.bounds.height ?? 0
+        let width = window?.screen.bounds.width ?? 0
+        return AutoLayout.init(height: height, width: width)
     }
     
     private func setConstraint(){
@@ -67,7 +74,7 @@ class InfoAboutUser: UIView {
             make.top.equalTo(infoUser.snp.bottom).offset(20)
             make.leading.equalTo(snp.leading).offset(10)
             make.trailing.equalTo(snp.trailing).offset(-10)
-            make.height.equalTo(120)
+            make.height.equalTo(autoLayout().height / 7.7)
         }
         
         insuranceLabel.snp.makeConstraints { make in
@@ -75,7 +82,6 @@ class InfoAboutUser: UIView {
             make.leading.equalTo(snp.leading).offset(10)
             make.trailing.equalTo(snp.trailing).offset(-10)
             make.height.equalTo(65)
-//            make.bottom.equalTo(snp.bottom).offset(0)
         }
     }
 }

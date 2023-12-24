@@ -80,7 +80,6 @@ class OrderPaidView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setConfigView()
-        setConfigTable()
         setConstraint()
     }
    
@@ -94,8 +93,16 @@ class OrderPaidView: UIViewController {
         navigationController?.navigationBar.backgroundColor = .white
     }
     
-    private func setConfigTable(){
-       
+    ///Высота и ширина autoLayout для определения разных экранов
+    private func autoLayout() -> AutoLayout {
+        //        print(autoLayout().height) //930
+        //        print(autoLayout().width)  //430
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        let height = window?.screen.bounds.height ?? 0
+        let width = window?.screen.bounds.width ?? 0
+        return AutoLayout.init(height: height, width: width)
     }
     
     private func setConstraint(){
@@ -107,20 +114,17 @@ class OrderPaidView: UIViewController {
          orderConfirmedLabel].forEach(vStackView.addArrangedSubview(_:))
 
         vStackView.snp.makeConstraints { make in
-//            make.centerX.equalTo(view.snp.centerX)
             make.centerY.equalTo(view.snp.centerY)
             make.leading.equalTo(view.snp.leading).offset(25)
             make.trailing.equalTo(view.snp.trailing).offset(-25)
-            make.height.equalTo(270)
-//            make./*width*/.equalTo(330)
-
+            make.height.equalTo(autoLayout().height / 3.45)
         }
         
         superButton.snp.makeConstraints { make in
             make.leading.equalTo(view.snp.leading).offset(10)
             make.trailing.equalTo(view.snp.trailing).offset(-10)
             make.bottom.equalTo(view.snp.bottom).offset(-40)
-            make.height.equalTo(50)
+            make.height.equalTo(autoLayout().height / 18)
         }
         
         yourOrderInWorkLabel.snp.makeConstraints { make in
@@ -128,11 +132,11 @@ class OrderPaidView: UIViewController {
         }
         
         orderConfirmedLabel.snp.makeConstraints { make in
-            make.height.equalTo(170)
+            make.height.equalTo(autoLayout().height / 5.46)
         }
         
         successfulOrderImage.snp.makeConstraints { make in
-            make.height.equalTo(94)
+            make.height.equalTo(autoLayout().height / 9.9)
         }
     }
 }

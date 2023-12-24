@@ -155,6 +155,16 @@ class RoomReservationView: UIViewController {
         firstPersonView.imageArrowStar.addTarget(self, action: #selector(tapArrow), for: .touchUpInside)
     }
     
+    ///Высота и ширина autoLayout для определения разных экранов
+    private func autoLayout() -> AutoLayout {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        let height = window?.screen.bounds.height ?? 0
+        let width = window?.screen.bounds.width ?? 0
+        return AutoLayout.init(height: height, width: width)
+    }
+    
     private func setConstraint(){
         view.addSubview(scrollView)
         
@@ -178,14 +188,14 @@ class RoomReservationView: UIViewController {
             make.top.equalTo(scrollView.snp.top).offset(10)
             make.leading.equalTo(scrollView.snp.leading)
             make.trailing.equalTo(scrollView.snp.trailing).offset(10)
-            make.height.equalTo(160)
+            make.height.equalTo(autoLayout().height / 5.8)
         }
         
         ratingAndNameWithoutCost.snp.makeConstraints { make in
             make.top.equalTo(scrollView.snp.top).offset(20)
             make.leading.equalTo(scrollView.snp.leading).offset(10)
             make.trailing.equalTo(scrollView.snp.trailing).offset(-10)
-            make.height.equalTo(150)
+            make.height.equalTo(autoLayout().height / 6.2)
         }
         
         bgInfoAboutHotel.snp.makeConstraints { make in
@@ -199,22 +209,22 @@ class RoomReservationView: UIViewController {
             make.top.equalTo(ratingAndNameWithoutCost.snp.bottom).offset(10)
             make.leading.equalTo(scrollView.snp.leading).offset(10)
             make.trailing.equalTo(scrollView.snp.trailing).offset(-30)
-            make.height.equalTo(300)
+            make.height.equalTo(autoLayout().height / 3.001)
         }
         
         infoAboutUser.snp.makeConstraints { make in
             make.top.equalTo(infoAboutHotel.snp.bottom).offset(40)
             make.leading.equalTo(scrollView.snp.leading)
             make.trailing.equalTo(scrollView.snp.trailing)
-            make.height.equalTo(300)
-            make.width.equalTo(430)
+            make.height.equalTo(autoLayout().height / 3.1)
+            make.width.equalTo(autoLayout().width)
         }
         
         firstPersonView.snp.makeConstraints { make in
             make.top.equalTo(infoAboutUser.snp.bottom).offset(20)
             make.leading.equalTo(scrollView.snp.leading)
             make.trailing.equalTo(scrollView.snp.trailing)
-            make.height.equalTo(490)
+            make.height.equalTo(autoLayout().height / 1.9)
         }
         
         if isHiddenCustomTable {
@@ -222,21 +232,21 @@ class RoomReservationView: UIViewController {
                 make.top.equalTo(firstPersonView.snp.bottom).offset(20)
                 make.leading.equalTo(scrollView.snp.leading).offset(10)
                 make.trailing.equalTo(scrollView.snp.trailing).offset(-10)
-                make.height.equalTo(120)
+                make.height.equalTo(autoLayout().height / 7.7)
             }
         } else {
             customTurist.snp.makeConstraints { make in
                 make.top.equalTo(firstPersonView.snp.bottom).offset(20)
                 make.leading.equalTo(scrollView.snp.leading)
                 make.trailing.equalTo(scrollView.snp.trailing)
-                make.height.equalTo(60)
+                make.height.equalTo(autoLayout().height / 15.3)
             }
             
             costOrderView.snp.makeConstraints { make in
                 make.top.equalTo(customTurist.snp.bottom).offset(20)
                 make.leading.equalTo(scrollView.snp.leading).offset(10)
                 make.trailing.equalTo(scrollView.snp.trailing).offset(-10)
-                make.height.equalTo(120)
+                make.height.equalTo(autoLayout().height / 7.7)
             }
         }
         
@@ -244,7 +254,7 @@ class RoomReservationView: UIViewController {
             make.top.equalTo(costOrderView.snp.bottom).offset(20)
             make.leading.equalTo(scrollView.snp.leading).offset(10)
             make.trailing.equalTo(scrollView.snp.trailing).offset(-10)
-            make.height.equalTo(70)
+            make.height.equalTo(autoLayout().height / 13)
             make.bottom.equalTo(scrollView.snp.bottom).offset(-10)
         }
         
@@ -252,7 +262,7 @@ class RoomReservationView: UIViewController {
             make.top.equalTo(costOrderView.snp.bottom).offset(10)
             make.leading.equalTo(scrollView.snp.leading)
             make.trailing.equalTo(scrollView.snp.trailing)
-            make.height.equalTo(60)
+            make.height.equalTo(autoLayout().height / 15.3)
             make.bottom.equalTo(scrollView.snp.bottom).offset(-10)
         }
     }

@@ -77,20 +77,30 @@ class RatingAndNameWithoutCost: UIView {
         hotelAdress.text = hotelAdressText
     }
     
+    ///Высота и ширина autoLayout для определения разных экранов
+    private func autoLayout() -> AutoLayout {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        let height = window?.screen.bounds.height ?? 0
+        let width = window?.screen.bounds.width ?? 0
+        return AutoLayout.init(height: height, width: width)
+    }
+    
     private func setConstraint(){
         backgroundColor = .clear
         [hStackViewRating, nameHotel, hotelAdress].forEach(addSubview(_:))
         
         imageStar.snp.makeConstraints { make in
             make.top.equalTo(hStackViewRating.snp.top).offset(10)// Тут какое-то предупреждение
-            make.trailing.equalTo(viewRatingLabel.snp.trailing).offset(-140)
+            make.trailing.equalTo(viewRatingLabel.snp.trailing).offset(-autoLayout().width / 2.99)
             make.bottom.equalTo(hStackViewRating.snp.bottom).offset(-10)
         }
         
         hStackViewRating.snp.makeConstraints { make in
             make.top.equalTo(snp.top).offset(5)
             make.leading.equalTo(snp.leading).offset(5)
-            make.trailing.equalTo(snp.trailing).offset(-230)
+            make.trailing.equalTo(snp.trailing).offset(-autoLayout().width / 1.86)
         }
         
         nameHotel.snp.makeConstraints { make in

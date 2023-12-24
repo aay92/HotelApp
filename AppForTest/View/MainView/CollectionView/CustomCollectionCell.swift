@@ -1,9 +1,3 @@
-//
-//  CustomCollectionCell.swift
-//  AppForTest
-//
-//  Created by Aleksey Alyonin on 17.12.2023.
-//
 import UIKit
 import SnapKit
 
@@ -15,7 +9,8 @@ class CustomCollectionCell: UICollectionViewCell {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
 //        image.layoutIfNeeded()
-//        image.image = UIImage(named: "pngHotel")?.withRoundedCorners(radius: 15)
+        image.clipsToBounds = true
+        image.image = UIImage(named: "pngHotel")?.withRoundedCorners(radius: 15)
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -58,5 +53,7 @@ class CustomCollectionCell: UICollectionViewCell {
     }
     
 }
+
+
 
 

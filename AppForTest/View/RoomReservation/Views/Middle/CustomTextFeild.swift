@@ -106,18 +106,12 @@ class CustomTextField: UIView {
     init(){
         super.init(frame: .zero)
         setConstraint()
-        print(phoneTextField.text)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func configure(textRight: String){
-//        leftLabel.text = textLeft
-//        rightLabel.text = textRight
-    }
-    
+
     private func setConstraint(){
         backgroundColor = .clear
         [bgView, phoneStackView, bgView2, emailStackView].forEach(addSubview(_:))

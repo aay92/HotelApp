@@ -22,7 +22,6 @@
 		5B482E502B2F242700A795A4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5B482E4F2B2F242700A795A4 /* SnapKit */; };
 		5B482E522B2F242700A795A4 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 5B482E512B2F242700A795A4 /* SnapKit-Dynamic */; };
 		5B482E552B2F29B200A795A4 /* ModelsProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B482E542B2F29B200A795A4 /* ModelsProject.swift */; };
-		5B482E5D2B2F3EEC00A795A4 /* HotelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B482E5C2B2F3EEC00A795A4 /* HotelCollectionView.swift */; };
 		5B482E5F2B2F430500A795A4 /* CustomCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B482E5E2B2F430500A795A4 /* CustomCollectionCell.swift */; };
 		5B482E612B300BFE00A795A4 /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B482E602B300BFE00A795A4 /* UIImage + Extension.swift */; };
 		5B482E632B300E7D00A795A4 /* RatingAndName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B482E622B300E7D00A795A4 /* RatingAndName.swift */; };
@@ -73,7 +72,6 @@
 		5B482E4A2B2ED97C00A795A4 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		5B482E4C2B2EDA0400A795A4 /* MainVCCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVCCoordinator.swift; sourceTree = "<group>"; };
 		5B482E542B2F29B200A795A4 /* ModelsProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelsProject.swift; sourceTree = "<group>"; };
-		5B482E5C2B2F3EEC00A795A4 /* HotelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotelCollectionView.swift; sourceTree = "<group>"; };
 		5B482E5E2B2F430500A795A4 /* CustomCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionCell.swift; sourceTree = "<group>"; };
 		5B482E602B300BFE00A795A4 /* UIImage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
 		5B482E622B300E7D00A795A4 /* RatingAndName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingAndName.swift; sourceTree = "<group>"; };
@@ -278,7 +276,6 @@
 		5B482E5B2B2F3E8000A795A4 /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				5B482E5C2B2F3EEC00A795A4 /* HotelCollectionView.swift */,
 				5B482E5E2B2F430500A795A4 /* CustomCollectionCell.swift */,
 			);
 			path = CollectionView;
@@ -311,6 +308,7 @@
 		5B482E772B31AEB000A795A4 /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
+				5B482EB32B38B61300A795A4 /* New Group */,
 				5B482E752B31A5DC00A795A4 /* ChooseApartmentViewCell.swift */,
 			);
 			path = TableViewCell;
@@ -405,6 +403,13 @@
 				5B482EA42B33704F00A795A4 /* NetworkManager.swift */,
 			);
 			path = NetworkService;
+			sourceTree = "<group>";
+		};
+		5B482EB32B38B61300A795A4 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -510,7 +515,6 @@
 				5B482E552B2F29B200A795A4 /* ModelsProject.swift in Sources */,
 				5B482EA12B33649400A795A4 /* OrderPaidViewCoordinator.swift in Sources */,
 				5B482E8F2B32423200A795A4 /* FirstPersonView.swift in Sources */,
-				5B482E5D2B2F3EEC00A795A4 /* HotelCollectionView.swift in Sources */,
 				5B482E9F2B33646700A795A4 /* OrderPaidVeiw.swift in Sources */,
 				5B482E442B2ED7FF00A795A4 /* UIColor + Extension.swift in Sources */,
 				5B482E792B31D10700A795A4 /* RoomReservationView.swift in Sources */,

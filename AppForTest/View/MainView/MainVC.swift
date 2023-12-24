@@ -16,8 +16,9 @@ class MainVC: UIViewController {
     weak var mainVCCoordinator: MainVCCoordinator?
     ///Получаем инстанс мок даты для таблицы с преимуществами
     let tableViewData = GetItemInTableView()
+    ///Пустой массив для Коллекции
     var customCollectionCell: [String] = []
-    ///Пустой массив для таблицы
+    ///Пустой массив для Tаблицы
     var itemsCellVorTabel:[ItemInTableView] = []
 
     private lazy var scrollView: UIScrollView = {
@@ -162,6 +163,7 @@ class MainVC: UIViewController {
         tableView.register(AboutHotelTableViewCell.self, forCellReuseIdentifier: AboutHotelTableViewCell.identifier)
         tableView.reloadData()
     }
+    
     ///Настройка главного вью
     private func setConfig(){
         view.backgroundColor = AppColor.separator
@@ -172,17 +174,17 @@ class MainVC: UIViewController {
     
     ///Высота и ширина autoLayout для определения разных экранов
     private func autoLayout() -> AutoLayout {
+        //        print(autoLayout().height) //930
+        //        print(autoLayout().width)  //430
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         let window = windowScene?.windows.first
         let height = window?.screen.bounds.height ?? 0
         let width = window?.screen.bounds.width ?? 0
-        return AutoLayout.init(height: Int(height), width: Int(width))
+        return AutoLayout.init(height: height, width: width)
     }
     
     func setConstraint(){
-//        print(autoLayout().height) //930
-//        print(autoLayout().width)  //430
         [scrollView].forEach(view.addSubview(_:))
         
         [bgHotelView,
@@ -194,10 +196,11 @@ class MainVC: UIViewController {
          bgButtonView,
          buttonHotelView
         ].forEach(scrollView.addSubview(_:))
-        
+        //        print(autoLayout().height) //930
+        //        print(autoLayout().width)  //430
         bgHotelView.snp.makeConstraints { make in
-            make.width.equalTo(430)
-            make.height.equalTo(487)
+            make.width.equalTo(autoLayout().width)
+            make.height.equalTo(autoLayout().height / 1.9)
             make.top.equalTo(scrollView.snp.top)
             make.leading.equalTo(scrollView.snp.leading)
             make.trailing.equalTo(scrollView.snp.trailing)
@@ -205,22 +208,22 @@ class MainVC: UIViewController {
         }
         
         hotelCollectionView.snp.makeConstraints { make in
-            make.height.equalTo(257)
+            make.height.equalTo(autoLayout().height / 3.6)
             make.top.equalTo(bgHotelView.snp.top).offset(20)
             make.leading.equalTo(scrollView.snp.leading).offset(10)
             make.trailing.equalTo(scrollView.snp.trailing).offset(-10)
         }
         
         ratingAndName.snp.makeConstraints { make in
-            make.height.equalTo(297)
-            make.top.equalTo(hotelCollectionView.snp.top).offset(260)
+            make.height.equalTo(autoLayout().height / 3.1)
+            make.top.equalTo(hotelCollectionView.snp.top).offset(autoLayout().height / 3.57)
             make.leading.equalTo(scrollView.snp.leading).offset(10)
             make.trailing.equalTo(scrollView.snp.trailing).offset(-10)
         }
         
         bgHotelDescriptionView.snp.makeConstraints { make in
-            make.width.equalTo(430)
-            make.height.equalTo(457)
+            make.width.equalTo(autoLayout().width)
+            make.height.equalTo(autoLayout().height / 2.03)
             make.leading.equalTo(scrollView.snp.leading)
             make.trailing.equalTo(scrollView.snp.trailing)
             make.bottom.equalTo(bgButtonView.snp.top).offset(-10)
@@ -230,7 +233,7 @@ class MainVC: UIViewController {
             make.top.equalTo(bgHotelDescriptionView.snp.top).offset(10)
             make.leading.equalTo(scrollView.snp.leading).offset(10)
             make.trailing.equalTo(scrollView.snp.trailing).offset(-10)
-            make.bottom.equalTo(bgHotelDescriptionView.snp.bottom).offset(-210)
+            make.bottom.equalTo(bgHotelDescriptionView.snp.bottom).offset(-autoLayout().height / 4.4)
         }
         
         tableView.snp.makeConstraints { make in
@@ -241,15 +244,15 @@ class MainVC: UIViewController {
         }
         
         bgButtonView.snp.makeConstraints { make in
-            make.height.equalTo(88)
+            make.height.equalTo(autoLayout().height / 10.5)
             make.leading.equalTo(scrollView.snp.leading)
             make.trailing.equalTo(scrollView.snp.trailing)
             make.bottom.equalTo(scrollView.snp.bottom)
         }
         
         buttonHotelView.snp.makeConstraints { make in
-            make.width.equalTo(375)
-            make.height.equalTo(48)     
+            make.width.equalTo(autoLayout().width / 1.15)
+            make.height.equalTo(48)
             make.centerX.equalTo(scrollView.snp.centerX)
             make.bottom.equalTo(scrollView.snp.bottom)
         }
@@ -293,8 +296,8 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, 
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 403,
-                      height: 303)
+        return CGSize(width: autoLayout().width / 1.066,
+                      height: autoLayout().height / 3.06)
     }
 
 }

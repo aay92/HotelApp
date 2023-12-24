@@ -12,6 +12,8 @@ class ChooseApartmentViewCell: UITableViewCell {
     
     static let identifier = "ChooseApartmentViewCell"
     
+    var customCollectionCell: [String] = []
+
     private let bgView: UIView = {
         let view = UIView()
         view.clipsToBounds = false
@@ -20,14 +22,8 @@ class ChooseApartmentViewCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-   
-    private let collectionImage: UIImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleAspectFit
-        view.image = UIImage(named: "pngHotel")?.withRoundedCorners(radius: 30)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    
+    var collectionView2: UICollectionView!
     
     private var nameLabel: UILabel = {
         let label = UILabel()
@@ -79,7 +75,7 @@ class ChooseApartmentViewCell: UITableViewCell {
         stackView.distribution  = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.backgroundColor = .clear
-        stackView.spacing = 2
+        stackView.spacing = 5
         return stackView
     }()
     
@@ -104,7 +100,7 @@ class ChooseApartmentViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     
     private let stackCost: UIStackView = {
         let stackView = UIStackView()
@@ -159,33 +155,50 @@ class ChooseApartmentViewCell: UITableViewCell {
     @objc func tappedButtonFake(){} //Подробнее об номере
     @objc func tappedButtonAction(){print("Переход к заказу")}
     
+    ///Высота и ширина autoLayout для определения разных экранов
+    private func autoLayout() -> AutoLayout {
+        //        print(autoLayout().height) //930
+        //        print(autoLayout().width)  //430
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        let height = window?.screen.bounds.height ?? 0
+        let width = window?.screen.bounds.width ?? 0
+        return AutoLayout.init(height: height, width: width)
+    }
+    
     func configure(with item: ItemInChooseTableView){
         nameLabel.text = item.name
         plusLabel_1.text = " \(item.plus1) "
         plusLabel_2.text = " \(item.plus2) "
-        collectionImage.image = UIImage(named: item.image)?.withRoundedCorners(radius: 12)
         hotelCost.text = "\(item.cost) ₽"
         ///Получение картинки
-        print(item.image)
-        guard let urlImage = URL(string: item.image) else { return }
-        let queue = DispatchQueue.global(qos: .utility)
-        queue.async{
-            if let data = try? Data(contentsOf: urlImage) {
-                DispatchQueue.main.async {
-                    self.collectionImage.image = UIImage(data: data)?.withRoundedCorners(radius: 35)
-                }
-            }
-        }
+        guard let imageStrings = item.imageUrl else { return }
+        customCollectionCell = imageStrings
     }
 
+    func setupCollectionView() {
+        //        Set collection view
+        let layout = UICollectionViewFlowLayout()
+        collectionView2 = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        collectionView2.backgroundColor = .clear
+        collectionView2.register(CustomCollectionCell.self, forCellWithReuseIdentifier: CustomCollectionCell.identifier)
+        collectionView2.showsVerticalScrollIndicator = false
+        collectionView2.showsHorizontalScrollIndicator = false
+        collectionView2.isPagingEnabled = true
+        collectionView2.delegate = self
+        collectionView2.dataSource = self
+        layout.scrollDirection = .horizontal
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        setupCollectionView()
         [bgView,
-         collectionImage,
+         collectionView2,
          nameLabel,
          stackPlus,
-         stackCost, 
+         stackCost,
          buttonDetailed,
          buttonOrderAction
         ].forEach(self.contentView.addSubview(_:))
@@ -199,47 +212,43 @@ class ChooseApartmentViewCell: UITableViewCell {
             make.bottom.equalTo(snp.bottom)
         }
         
-        collectionImage.snp.makeConstraints { make in
+        collectionView2.snp.makeConstraints { make in
             make.top.equalTo(snp.top).offset(5)
-            make.leading.equalTo(snp.leading).offset(10)
-            make.trailing.equalTo(snp.trailing).offset(-10)
-            make.height.equalTo(320)
-//            make.width.equalTo(250)
+            make.leading.trailing.equalToSuperview()
         }
         
         nameLabel.snp.makeConstraints { make in
-            make.top.equalTo(collectionImage.snp.bottom).offset(-15)
+            make.top.equalTo(collectionView2.snp.bottom).offset(0)
             make.leading.equalTo(snp.leading).offset(16)
             make.trailing.equalTo(snp.trailing).offset(-16)
-            make.height.equalTo(75)
+            make.height.equalTo(autoLayout().height / 12)
         }
         
         stackPlus.snp.makeConstraints { make in
-            make.top.equalTo(nameLabel.snp.bottom).offset(5)
+            make.top.equalTo(nameLabel.snp.bottom).offset(20)
             make.leading.equalTo(snp.leading).offset(16)
             make.trailing.equalTo(snp.trailing).offset(-30)
-            make.height.equalTo(35)
+            make.height.equalTo(autoLayout().height / 25)
         }
         
         buttonDetailed.snp.makeConstraints { make in
             make.top.equalTo(stackPlus.snp.bottom).offset(20)
             make.leading.equalTo(snp.leading).offset(16)
             make.width.equalTo(202)
-            make.height.equalTo(29)
+            make.height.equalTo(autoLayout().height / 30)
         }
         
         stackCost.snp.makeConstraints { make in
             make.top.equalTo(buttonDetailed.snp.bottom).offset(10)
             make.leading.equalTo(snp.leading).offset(16)
             make.trailing.equalTo(snp.trailing).offset(-16)
-            make.height.equalTo(40)
         }
         
         buttonOrderAction.snp.makeConstraints { make in
             make.top.equalTo(stackCost.snp.bottom).offset(10)
             make.leading.equalTo(snp.leading).offset(16)
             make.trailing.equalTo(snp.trailing).offset(-16)
-            make.height.equalTo(48)
+            make.height.equalTo(autoLayout().height / 20)
             make.bottom.equalTo(snp.bottom).offset(-10)
         }
         
@@ -250,3 +259,19 @@ class ChooseApartmentViewCell: UITableViewCell {
     }
 }
 
+extension ChooseApartmentViewCell:  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return customCollectionCell.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionCell.identifier, for: indexPath) as! CustomCollectionCell
+        let itemsArray = customCollectionCell[indexPath.row]
+        cell.setUp(imageName: itemsArray)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: autoLayout().width, height: autoLayout().height / 3)
+    }
+}

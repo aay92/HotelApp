@@ -8,8 +8,8 @@
 import UIKit
 
 struct AutoLayout {
-    var height: Int
-    var width : Int
+    var height: Double
+    var width : Double
 }
 
 struct ItemInCollectionView: Codable {
@@ -48,5 +48,6 @@ struct ItemInChooseTableView {
     let plus1: String
     let plus2: String
     let cost: Int
+    var imageUrl: [String]?
 }
 

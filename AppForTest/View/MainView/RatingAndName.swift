@@ -91,6 +91,16 @@ class RatingAndName: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    ///Высота и ширина autoLayout для определения разных экранов
+    private func autoLayout() -> AutoLayout {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        let height = window?.screen.bounds.height ?? 0
+        let width = window?.screen.bounds.width ?? 0
+        return AutoLayout.init(height: height, width: width)
+    }
+    
     func configure(hotelName: String, ratingText: String, adress: String, hotelCosts: String){
         viewRatingLabel.text = "5 \(ratingText)"
         nameHotel.text = hotelName
@@ -104,14 +114,14 @@ class RatingAndName: UIView {
         
         imageStar.snp.makeConstraints { make in
             make.top.equalTo(hStackViewRating.snp.top).offset(10)// Тут какое-то предупреждение
-            make.trailing.equalTo(viewRatingLabel.snp.trailing).offset(-140)
+            make.trailing.equalTo(viewRatingLabel.snp.trailing).offset(-autoLayout().width / 3)
             make.bottom.equalTo(hStackViewRating.snp.bottom).offset(-10)
         }
-        
+     
         hStackViewRating.snp.makeConstraints { make in
             make.top.equalTo(snp.top).offset(5)
             make.leading.equalTo(snp.leading).offset(5)
-            make.trailing.equalTo(snp.trailing).offset(-230)
+            make.trailing.equalTo(snp.trailing).offset(-autoLayout().width / 1.87)
         }
         
         nameHotel.snp.makeConstraints { make in
