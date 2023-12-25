@@ -9,8 +9,8 @@ import UIKit
 
 class RoomReservationView: UIViewController {
     
-
-    var isHiddenCustomTable = false
+    
+    var isHiddenCustomTable = true
     weak var roomReservationCoordinator: RoomReservationCoordinator?
     ///ViewModel
     let roomResrvationViewModel = RoomResrvationViewModel()
@@ -42,7 +42,16 @@ class RoomReservationView: UIViewController {
     private let ratingAndNameWithoutCost = RatingAndNameWithoutCost()
     private let infoAboutHotel = InfoAboutHotel()
     private let infoAboutUser = InfoAboutUser()
-    private let firstPersonView = FirstPersonView()
+    private let firstPersonView: FirstPersonView = {
+        let firstPersonView = FirstPersonView()
+        firstPersonView.translatesAutoresizingMaskIntoConstraints = false
+        return firstPersonView
+    }()
+    private let secondPersonView: SecondPersonView = {
+        let secondPersonView = SecondPersonView()
+        secondPersonView.translatesAutoresizingMaskIntoConstraints = false
+        return secondPersonView
+    }()
     private let customTurist = CustomTurist()
     private let costOrderView = CostOrderView()
     
@@ -77,7 +86,7 @@ class RoomReservationView: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getNetworkData()
@@ -92,8 +101,6 @@ class RoomReservationView: UIViewController {
     private func getNetworkData(){
         Task {
             let data = await self.roomResrvationViewModel.fetchMainData()
-            print(data)
-            
             ratingAndNameWithoutCost.configure(
                 ratingText: data.ratingName ?? "",
                 hotelName: data.hotelName ?? "",
@@ -118,15 +125,6 @@ class RoomReservationView: UIViewController {
             self.payTheOrder.setTitle("Оплатить \(totalCostTour) ₽", for: .normal)
         }
     }
-
-//    override func updateViewConstraints() {
-//        super.updateViewConstraints()
-//        if isHiddenCustomTable {
-//            customTurist.isHidden = true
-//        } else {
-//            customTurist.isHidden = false
-//        }
-//    }
     
     @objc func tappedButton(){
         ///Переход на страницу успешный заказ
@@ -135,15 +133,51 @@ class RoomReservationView: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
+    @objc func tapArrowfirst(){
+        isHiddenCustomTable.toggle()
+        if self.isHiddenCustomTable {
+            self.firstPersonView.clipsToBounds = true
+            self.firstPersonView.snp.updateConstraints { make in
+                make.height.equalTo(self.autoLayout().height / 13)
+            }
+            self.firstPersonView.hiddenObjects(needHidden: true)
+            self.firstPersonView.layoutIfNeeded()
+            
+        } else {
+            self.firstPersonView.clipsToBounds = true
+            self.firstPersonView.snp.updateConstraints { make in
+                make.height.equalTo(self.autoLayout().height / 1.9)
+            }
+            self.firstPersonView.hiddenObjects(needHidden: false)
+            self.firstPersonView.layoutIfNeeded()
+        }
+        
+    }
+    
+    @objc func tapArrowSecond(){
+        isHiddenCustomTable.toggle()
+        if isHiddenCustomTable {
+            secondPersonView.clipsToBounds = true
+            secondPersonView.snp.updateConstraints { make in
+                make.height.equalTo(autoLayout().height / 13)
+            }
+            secondPersonView.hiddenObjects(needHidden: true)
+            secondPersonView.layoutIfNeeded()
+        } else {
+            secondPersonView.clipsToBounds = true
+            secondPersonView.snp.updateConstraints { make in
+                make.height.equalTo(autoLayout().height / 1.9)
+            }
+            secondPersonView.hiddenObjects(needHidden: false)
+            secondPersonView.layoutIfNeeded()
+        }
+    }
+    
     private func changeNameButton(){
         var costOnButton = 198036
         self.payTheOrder.setTitle("Оплатить \(costOnButton) ₽", for: .normal)
     }
     
-    @objc func tapArrow(){
-        print(isHiddenCustomTable)
-        isHiddenCustomTable.toggle()
-    }
     
     private func setConfigView(){
         title = "Бронирование"
@@ -152,7 +186,8 @@ class RoomReservationView: UIViewController {
     }
     
     private func setConfigTable(){
-        firstPersonView.imageArrowStar.addTarget(self, action: #selector(tapArrow), for: .touchUpInside)
+        firstPersonView.imageArrowStar.addTarget(self, action: #selector(tapArrowfirst), for: .touchUpInside)
+        secondPersonView.imageArrowStar.addTarget(self, action: #selector(tapArrowSecond), for: .touchUpInside)
     }
     
     ///Высота и ширина autoLayout для определения разных экранов
@@ -174,6 +209,7 @@ class RoomReservationView: UIViewController {
          infoAboutHotel,
          infoAboutUser,
          firstPersonView,
+         secondPersonView,
          customTurist,
          costOrderView,
          bgButtonView,
@@ -224,30 +260,30 @@ class RoomReservationView: UIViewController {
             make.top.equalTo(infoAboutUser.snp.bottom).offset(20)
             make.leading.equalTo(scrollView.snp.leading)
             make.trailing.equalTo(scrollView.snp.trailing)
-            make.height.equalTo(autoLayout().height / 1.9)
+            make.height.equalTo(autoLayout().height / 13)
+        }
+        firstPersonView.hiddenObjects(needHidden: true)
+        
+        secondPersonView.snp.makeConstraints { make in
+            make.top.equalTo(firstPersonView.snp.bottom).offset(20)
+            make.leading.equalTo(scrollView.snp.leading)
+            make.trailing.equalTo(scrollView.snp.trailing)
+            make.height.equalTo(autoLayout().height / 13)
+        }
+        secondPersonView.hiddenObjects(needHidden: true)
+        
+        customTurist.snp.makeConstraints { make in
+            make.top.equalTo(secondPersonView.snp.bottom).offset(20)
+            make.leading.equalTo(scrollView.snp.leading)
+            make.trailing.equalTo(scrollView.snp.trailing)
+            make.height.equalTo(autoLayout().height / 15.3)
         }
         
-        if isHiddenCustomTable {
-            costOrderView.snp.makeConstraints { make in
-                make.top.equalTo(firstPersonView.snp.bottom).offset(20)
-                make.leading.equalTo(scrollView.snp.leading).offset(10)
-                make.trailing.equalTo(scrollView.snp.trailing).offset(-10)
-                make.height.equalTo(autoLayout().height / 7.7)
-            }
-        } else {
-            customTurist.snp.makeConstraints { make in
-                make.top.equalTo(firstPersonView.snp.bottom).offset(20)
-                make.leading.equalTo(scrollView.snp.leading)
-                make.trailing.equalTo(scrollView.snp.trailing)
-                make.height.equalTo(autoLayout().height / 15.3)
-            }
-            
-            costOrderView.snp.makeConstraints { make in
-                make.top.equalTo(customTurist.snp.bottom).offset(20)
-                make.leading.equalTo(scrollView.snp.leading).offset(10)
-                make.trailing.equalTo(scrollView.snp.trailing).offset(-10)
-                make.height.equalTo(autoLayout().height / 7.7)
-            }
+        costOrderView.snp.makeConstraints { make in
+            make.top.equalTo(customTurist.snp.bottom).offset(20)
+            make.leading.equalTo(scrollView.snp.leading).offset(10)
+            make.trailing.equalTo(scrollView.snp.trailing).offset(-10)
+            make.height.equalTo(autoLayout().height / 7.7)
         }
         
         payTheOrder.snp.makeConstraints { make in
