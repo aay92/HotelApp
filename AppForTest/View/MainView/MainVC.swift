@@ -174,8 +174,6 @@ class MainVC: UIViewController {
     
     ///Высота и ширина autoLayout для определения разных экранов
     private func autoLayout() -> AutoLayout {
-        //        print(autoLayout().height) //930
-        //        print(autoLayout().width)  //430
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         let window = windowScene?.windows.first
@@ -196,8 +194,7 @@ class MainVC: UIViewController {
          bgButtonView,
          buttonHotelView
         ].forEach(scrollView.addSubview(_:))
-        //        print(autoLayout().height) //930
-        //        print(autoLayout().width)  //430
+
         bgHotelView.snp.makeConstraints { make in
             make.width.equalTo(autoLayout().width)
             make.height.equalTo(autoLayout().height / 1.9)
@@ -279,7 +276,6 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, 
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(customCollectionCell.count)
         return customCollectionCell.count
     }
     

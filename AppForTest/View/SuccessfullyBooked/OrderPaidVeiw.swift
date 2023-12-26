@@ -95,8 +95,6 @@ class OrderPaidView: UIViewController {
     
     ///Высота и ширина autoLayout для определения разных экранов
     private func autoLayout() -> AutoLayout {
-        //        print(autoLayout().height) //930
-        //        print(autoLayout().width)  //430
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         let window = windowScene?.windows.first
